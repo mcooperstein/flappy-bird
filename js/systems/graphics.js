@@ -7,10 +7,8 @@ var GraphicsSystem = function (entities) {
 };
 
 GraphicsSystem.prototype.run = function () {
-    // Tick the graphics system a few times to see it in action
-    for (var i = 0; i < 5; i++) {
-        this.tick();
-    }
+    // Run the render loop
+    window.requestAnimationFrame(this.tick.bind(this));
 };
 
 GraphicsSystem.prototype.tick = function () {
@@ -24,6 +22,11 @@ GraphicsSystem.prototype.tick = function () {
     // Clear the canvas
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    //Saving and restoring state
+    this.context.save();
+    this.context.translate(this.canvas.width / 2, this.canvas.height);
+    this.context.scale(this.canvas.height, -this.canvas.height);
+
     // Rendering goes here
     for (var i = 0; i < this.entities.length; i++) {
         var entity = this.entities[i];
@@ -33,6 +36,8 @@ GraphicsSystem.prototype.tick = function () {
 
         entity.components.graphics.draw(this.context);
     }
+    // Continue the render loop
+    window.requestAnimationFrame(this.tick.bind(this));
 };
 
 exports.GraphicsSystem = GraphicsSystem;

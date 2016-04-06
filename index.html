@@ -4,12 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Flappy Bird</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 
 <body>
     <canvas id="main-canvas"></canvas>
+    <script>
+        var canvas = document.getElementById("main-canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "red";
+        ctx.fillRect(10, 10, 100, 100); //x-axis,y-axis,width,height
+        ctx.moveTo(10, 10); //x-axis,y-axis
+        ctx.lineTo(110, 110);
+        ctx.moveTo(110, 10);
+        ctx.lineTo(10, 110);
+        ctx.moveTo(60, 10);
+        ctx.lineTo(60, 110);
+        ctx.moveTo(10, 60);
+        ctx.lineTo(110, 60);
+        ctx.strokeStyle = "blue";
+        ctx.stroke();
+    </script>
     <script src="build/js/bundle.js"></script>
-    <p>Marc</p>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </body>
 
 </html>
