@@ -1,7 +1,13 @@
+/*
+Install NPMs with following command:
+sudo npm install --save-dev gulp gulp-jshint gulp-sass gulp-imagemin browserify gulp-uglify gulp-htmlmin gulp-concat gulp-rename vinyl-source-stream vinyl-buffer gulp-autoprefixer gulp-sourcemaps gulp-sync gulp-clean-css
+*/
+
 var gulp = require('gulp');
 
 var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
+var watch = require('gulp-watch');
 var imagemin = require('gulp-imagemin');
 var browserify = require('browserify');
 var uglify = require('gulp-uglify');
@@ -28,8 +34,8 @@ gulp.task('sass', function () {
 
 // Watch task
 gulp.task('watch', function () {
-    gulp.watch('site/js/*.js', ['jshint']);
-    gulp.watch('site/scss/*.scss', ['sass']);
+    gulp.watch('js/*.js', ['jshint']);
+    gulp.watch('scss/*.scss', ['sass']);
 });
 
 // Image compression task
@@ -45,7 +51,7 @@ gulp.task('kraken', function () {
 // Default task
 gulp.task('default', ['jshint', 'sass', 'watch', 'kraken']);
 
-// Minify index
+// Minify index.html
 gulp.task('html', function () {
     return gulp.src('site/index.html')
         .pipe(minifyHTML())
@@ -54,26 +60,26 @@ gulp.task('html', function () {
 
 // JavaScript build task, removes whitespace and concatenates all files
 gulp.task('scripts', function () {
-    return browserify('js/main.js')
+    return browserify('./js/main.js')
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('app.js'))
         .pipe(buffer())
-        .pipe(uglify())
-        .pipe(gulp.dest('build/js'));
+        //.pipe(uglify())
+        .pipe(gulp.dest('./js'));
 });
 
 // Styles build task, concatenates all the files
 gulp.task('styles', function () {
-    return gulp.src('site/css/*.css')
+    return gulp.src('css/*.css')
         .pipe(concat('styles.css'))
         .pipe(gulp.dest('build/css'));
 });
 
 // Image optimization task
 gulp.task('images', function () {
-    return gulp.src('site/img/*')
+    return gulp.src('images/*')
         .pipe(imagemin())
-        .pipe(gulp.dest('build/img'));
+        .pipe(gulp.dest('build/images'));
 });
 
 // Build task
