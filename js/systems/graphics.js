@@ -1,9 +1,12 @@
+'use strict';
+
 var GraphicsSystem = function (entities) {
     this.entities = entities;
     // Canvas is where we draw
     this.canvas = document.getElementById('main-canvas');
     // Context is what we draw to
     this.context = this.canvas.getContext('2d');
+
 };
 
 GraphicsSystem.prototype.run = function () {
@@ -36,8 +39,10 @@ GraphicsSystem.prototype.tick = function () {
 
         entity.components.graphics.draw(this.context);
     }
+    //restoring state
+    this.context.restore();
     // Continue the render loop
     window.requestAnimationFrame(this.tick.bind(this));
 };
 
-exports.GraphicsSystem = GraphicsSystem;
+module.exports = GraphicsSystem;

@@ -1,24 +1,29 @@
-var graphicsSystem = require('./systems/graphics');
-var bird = require('./entities/bird');
-var pipe = require('./entities/pipe');
+'use strict';
+
+var GraphicsSystem = require('./systems/graphics');
+
+var Bird = require('./entities/bird');
+//var pipe = require('./entities/pipe');
 
 var FlappyBird = function () {
-    this.entities = [new bird.Bird()];
-    this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
+    //this.entities = [new bird.Bird()];
+    this.entities = [new Bird()];
+    this.graphics = new GraphicsSystem(this.entities);
+    //this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
 };
 
-var FlappyPipe = function () {
+/*var FlappyPipe = function () {
     this.entities = [new pipe.Pipe()];
     this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
-};
+};*/
 
 FlappyBird.prototype.run = function () {
     this.graphics.run();
 };
 
-FlappyPipe.prototype.run = function () {
+/*FlappyPipe.prototype.run = function () {
     this.graphics.run();
-};
+};*/
 
-exports.FlappyBird = FlappyBird;
-exports.FlappyPipe = FlappyPipe;
+module.exports = FlappyBird;
+//exports.FlappyPipe = FlappyPipe;
