@@ -15,7 +15,7 @@ var Bird = function () {
             //graphics: graphics
     };
     this.components.physics.position.y = 0.5;
-    this.components.physics.acceleration.y = -2;
+    this.components.physics.acceleration.y = -1.5;
 };
 
 //exports.Bird = Bird;
