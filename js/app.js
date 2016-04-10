@@ -86,6 +86,7 @@ module.exports = Bird;
 
 var GraphicsSystem = require('./systems/graphics');
 var PhysicsSystem = require('./systems/physics');
+var InputSystem = require('./systems/inputs');
 
 var Bird = require('./entities/bird');
 //var pipe = require('./entities/pipe');
@@ -95,6 +96,7 @@ var FlappyBird = function () {
     this.entities = [new Bird()];
     this.graphics = new GraphicsSystem(this.entities);
     this.physics = new PhysicsSystem(this.entities);
+    this.inputs = new InputSystem(this.entities);
     //this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
     //this.physics = new physicsSystem.PhysicsSystem(this.entities);
 };
@@ -107,6 +109,7 @@ var FlappyBird = function () {
 FlappyBird.prototype.run = function () {
     this.graphics.run();
     this.physics.run();
+    this.inputs.run();
 };
 
 /*FlappyPipe.prototype.run = function () {
@@ -116,7 +119,7 @@ FlappyBird.prototype.run = function () {
 module.exports = FlappyBird;
 //exports.FlappyPipe = FlappyPipe;
 
-},{"./entities/bird":3,"./systems/graphics":6,"./systems/physics":7}],5:[function(require,module,exports){
+},{"./entities/bird":3,"./systems/graphics":6,"./systems/inputs":7,"./systems/physics":8}],5:[function(require,module,exports){
 'use strict';
 
 var FlappyBird = require('./flappy_bird');
@@ -180,6 +183,25 @@ GraphicsSystem.prototype.tick = function () {
 module.exports = GraphicsSystem;
 
 },{}],7:[function(require,module,exports){
+var InputSystem = function (entities) {
+    this.entities = entities;
+
+    // Canvas is where we get input from
+    this.canvas = document.getElementById('main-canvas');
+};
+
+InputSystem.prototype.run = function () {
+    this.canvas.addEventListener('click', this.onClick.bind(this));
+};
+
+InputSystem.prototype.onClick = function () {
+    var bird = this.entities[0];
+    bird.components.physics.velocity.y = 0.7;
+};
+
+module.exports = InputSystem;
+
+},{}],8:[function(require,module,exports){
 var PhysicsSystem = function (entities) {
     this.entities = entities;
 };
