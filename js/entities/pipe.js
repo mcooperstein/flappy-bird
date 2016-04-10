@@ -14,6 +14,7 @@ var Pipe = function (position) {
     };
     this.components.physics.position.x = position.x;
     this.components.physics.position.y = position.y;
+    this.components.physics.velocity.x = -0.5;
 };
 
 module.exports = Pipe;

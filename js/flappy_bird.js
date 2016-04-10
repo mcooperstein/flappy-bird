@@ -16,10 +16,10 @@ var FlappyBird = function () {
         return Math.random() * (max - min) + min;
     }
     this.entities = [new Bird(), new Pipe({
-        x: 0,
+        x: 0.7,
         y: (-gapPosition) - extraSpace
     }), new Pipe({
-        x: 0,
+        x: 0.7,
         y: (1 - gapPosition) + extraSpace
     })];
 

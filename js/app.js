@@ -121,6 +121,7 @@ var Pipe = function (position) {
     };
     this.components.physics.position.x = position.x;
     this.components.physics.position.y = position.y;
+    this.components.physics.velocity.x = -0.5;
 };
 
 module.exports = Pipe;
@@ -144,10 +145,10 @@ var FlappyBird = function () {
         return Math.random() * (max - min) + min;
     }
     this.entities = [new Bird(), new Pipe({
-        x: 0,
+        x: 0.7,
         y: (-gapPosition) - extraSpace
     }), new Pipe({
-        x: 0,
+        x: 0.7,
         y: (1 - gapPosition) + extraSpace
     })];
 
