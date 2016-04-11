@@ -1,3 +1,5 @@
+'use strict';
+
 var PhysicsComponent = function (entity) {
     this.entity = entity;
 

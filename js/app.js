@@ -52,6 +52,8 @@ PipeGraphicsComponent.prototype.draw = function (context) {
 module.exports = PipeGraphicsComponent;
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
 var PhysicsComponent = function (entity) {
     this.entity = entity;
 
@@ -132,12 +134,14 @@ module.exports = Pipe;
 var GraphicsSystem = require('./systems/graphics');
 var PhysicsSystem = require('./systems/physics');
 var InputSystem = require('./systems/inputs');
+var PipeSystem = require('./systems/pipes');
 
 var Bird = require('./entities/bird');
-var Pipe = require('./entities/pipe');
+//var Pipe = require('./entities/pipe');
 
 var FlappyBird = function () {
     //this.entities = [new bird.Bird()];
+    /*
     var gapPosition = randomRange(0.2, 0.8);
     var extraSpace = 0.2;
 
@@ -151,33 +155,27 @@ var FlappyBird = function () {
         x: 0.7,
         y: (1 - gapPosition) + extraSpace
     })];
-
+    */
+    /* this.entities = [new Bird(), new PipeSystem()]; */
+    this.entities = [new Bird()];
     this.graphics = new GraphicsSystem(this.entities);
     this.physics = new PhysicsSystem(this.entities);
     this.inputs = new InputSystem(this.entities);
+    this.pipes = new PipeSystem(this.entities);
     //this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
     //this.physics = new physicsSystem.PhysicsSystem(this.entities);
 };
-
-/*var FlappyPipe = function () {
-    this.entities = [new pipe.Pipe()];
-    this.graphics = new graphicsSystem.GraphicsSystem(this.entities);
-};*/
 
 FlappyBird.prototype.run = function () {
     this.graphics.run();
     this.physics.run();
     this.inputs.run();
+    this.pipes.run();
 };
 
-/*FlappyPipe.prototype.run = function () {
-    this.graphics.run();
-};*/
-
 module.exports = FlappyBird;
-//exports.FlappyPipe = FlappyPipe;
 
-},{"./entities/bird":4,"./entities/pipe":5,"./systems/graphics":8,"./systems/inputs":9,"./systems/physics":10}],7:[function(require,module,exports){
+},{"./entities/bird":4,"./systems/graphics":8,"./systems/inputs":9,"./systems/physics":10,"./systems/pipes":11}],7:[function(require,module,exports){
 'use strict';
 
 var FlappyBird = require('./flappy_bird');
@@ -226,10 +224,13 @@ GraphicsSystem.prototype.tick = function () {
     // Rendering goes here
     for (var i = 0; i < this.entities.length; i++) {
         var entity = this.entities[i];
-        if (!'graphics' in entity.components) {
+
+        if (!('graphics' in entity.components)) {
             continue;
         }
-
+        /*if (!'graphics' in entity.components) {
+            continue;
+        }*/
         entity.components.graphics.draw(this.context);
     }
     //restoring state
@@ -241,6 +242,8 @@ GraphicsSystem.prototype.tick = function () {
 module.exports = GraphicsSystem;
 
 },{}],9:[function(require,module,exports){
+'use strict';
+
 var InputSystem = function (entities) {
     this.entities = entities;
 
@@ -257,21 +260,29 @@ InputSystem.prototype.run = function () {
 InputSystem.prototype.onClick = function () {
     var bird = this.entities[0];
     bird.components.physics.velocity.y = 0.9;
+    /*var Bird = this.entities[0];
+    Bird.components.physics.velocity.y = 0.9;*/
 };
 
 InputSystem.prototype.handleStart = function () {
     var bird = this.entities[0];
     bird.components.physics.velocity.y = 0.9;
+    /*var Bird = this.entities[0];
+    Bird.components.physics.velocity.y = 0.9;*/
 };
 
 InputSystem.prototype.handleEnd = function () {
     var bird = this.entities[0];
     bird.components.physics.velocity.y = 0;
+    /*var Bird = this.entities[0];
+    Bird.components.physics.velocity.y = 0;*/
 };
 
 module.exports = InputSystem;
 
 },{}],10:[function(require,module,exports){
+'use strict';
+
 var PhysicsSystem = function (entities) {
     this.entities = entities;
 };
@@ -284,7 +295,11 @@ PhysicsSystem.prototype.run = function () {
 PhysicsSystem.prototype.tick = function () {
     for (var i = 0; i < this.entities.length; i++) {
         var entity = this.entities[i];
-        if (!'physics' in entity.components) {
+        /*if (!'physics' in entity.components) {
+            continue;
+        }*/
+
+        if (!('physics' in entity.components)) {
             continue;
         }
 
@@ -294,4 +309,48 @@ PhysicsSystem.prototype.tick = function () {
 
 module.exports = PhysicsSystem;
 
-},{}]},{},[7]);
+},{}],11:[function(require,module,exports){
+'use strict';
+
+var Pipe = require('../entities/pipe');
+
+var PipeSystem = function (entities) {
+    this.entities = entities;
+};
+
+function randomRange(min, max) {
+    return Math.random() * (max - min) + min;
+};
+
+PipeSystem.prototype.run = function () {
+    this.tick();
+
+    // Run the update loop
+    window.setInterval(this.tick.bind(this), 2000);
+};
+
+PipeSystem.prototype.tick = function () {
+
+    var gapPosition = randomRange(0.2, 0.8);
+    var extraSpace = 0.2;
+
+    /*this.entities = [new Pipe({
+        x: 0.7,
+        y: (-gapPosition) - extraSpace
+    }), new Pipe({
+        x: 0.7,
+        y: (1 - gapPosition) + extraSpace
+    })];*/
+    this.entities.push(new Pipe({
+        x: 0.7,
+        y: (-gapPosition) - extraSpace
+    }))
+    this.entities.push(new Pipe({
+        x: 0.7,
+        y: (1 - gapPosition) + extraSpace
+    }))
+};
+
+module.exports = PipeSystem;
+
+},{"../entities/pipe":5}]},{},[7]);
