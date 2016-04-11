@@ -20,16 +20,16 @@ var kraken = require('gulp-kraken');
 
 // JavaScript linting task
 gulp.task('jshint', function () {
-    return gulp.src('site/js/*.js')
+    return gulp.src('js/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 // Compile Sass task
 gulp.task('sass', function () {
-    return gulp.src('site/scss/*.scss')
+    return gulp.src('scss/*.scss')
         .pipe(sass())
-        .pipe(gulp.dest('site/css'));
+        .pipe(gulp.dest('./css'));
 });
 
 // Watch task
@@ -53,7 +53,7 @@ gulp.task('default', ['jshint', 'sass', 'watch', 'kraken']);
 
 // Minify index.html
 gulp.task('html', function () {
-    return gulp.src('site/index.html')
+    return gulp.src('./index.html')
         .pipe(minifyHTML())
         .pipe(gulp.dest('build/'));
 });
