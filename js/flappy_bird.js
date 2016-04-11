@@ -5,11 +5,24 @@ var PhysicsSystem = require('./systems/physics');
 var InputSystem = require('./systems/inputs');
 
 var Bird = require('./entities/bird');
-//var pipe = require('./entities/pipe');
+var Pipe = require('./entities/pipe');
 
 var FlappyBird = function () {
     //this.entities = [new bird.Bird()];
-    this.entities = [new Bird()];
+    var gapPosition = randomRange(0.2, 0.8);
+    var extraSpace = 0.2;
+
+    function randomRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+    this.entities = [new Bird(), new Pipe({
+        x: 0.7,
+        y: (-gapPosition) - extraSpace
+    }), new Pipe({
+        x: 0.7,
+        y: (1 - gapPosition) + extraSpace
+    })];
+
     this.graphics = new GraphicsSystem(this.entities);
     this.physics = new PhysicsSystem(this.entities);
     this.inputs = new InputSystem(this.entities);
